@@ -1,0 +1,253 @@
+body {
+    background-color: black;
+    color: white;
+    font-weight:normal;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+    touch-action: manipulation;
+}
+
+body, html {position: fixed;}
+
+#main {
+    overflow: hidden;
+    max-height: 100vh;
+    width: 100vw;
+}
+
+.toolbar {
+    height: 14vh;
+    width: 100%;
+    text-align: center;
+    font-size: 120%;
+    background-color: #c77dff;
+}
+
+.toolbar h1 {
+    margin: 0;
+    padding: 25px;
+}
+
+.toolbar a:nth-child(1) {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    left: 5%;
+    top: 3.5%;
+    font-size: 200%;
+}
+
+.toolbar img {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    left: 85%;
+    top: 3.7%;
+    width: 40px;
+}
+
+#content {
+    padding: 10px;
+    height: 83vh;
+    overflow-y: scroll;
+}
+
+.floating-button {
+    display:block;
+    position: absolute;
+    touch-action: manipulation;
+
+    color: white;
+    background-color: #c77dff;
+    border-radius: 20px;
+    height: 8%;
+    width: 25%;
+    font-size: 100%;
+    font-weight: bold;
+    border-width: 0px;
+}
+
+#add-date {
+    top: 87%;
+    left: 42%;
+}
+
+#generate {
+    top: 87%;
+    left: 70%;
+}
+
+#date-grid {
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: 10px;
+    margin-bottom: 20vh;
+}
+
+#content {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#content::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.date {
+    background-color: #240046;
+    color: black;
+    border-radius: 20px;
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1px;
+}
+
+.date input[type="date"] {
+    width: 80%;
+    height: 30px;
+    background-color: #c77dff;
+    border-width: 0;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color:white;
+}
+
+.date ul {
+    margin: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 20px;
+}
+
+.date input[type="text"] {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    margin: 5px;
+    width: 100%;
+}
+
+.date input[type="number"] {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    margin: 5px;
+}
+
+#side-nav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s;
+}
+
+#side-nav button {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 100%;
+    font-weight: bold;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    border: none;
+    background: none;
+    min-width: 250px - 8px -23px;
+}
+  
+#side-nav button:hover {
+    color: #f1f1f1;
+}
+
+#side-nav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;     
+}
+
+.date-heading {
+    grid-column-start: 1; grid-column-end: 3;
+    margin: 10px; display: grid; 
+    grid-template-columns: auto auto;
+    align-content: center;
+    column-gap: 10px; align-items: center;
+}
+
+.date-heading div{
+    grid-template-columns: auto auto; 
+    align-content:center;
+}
+.date-heading p {
+    display: inline;
+    color: white; 
+    font-weight: bold; 
+    font-size: small; 
+    text-align: center;
+}
+
+.date-heading div input {
+    width: 10%; 
+    display: inline; 
+    text-align: center;
+}
+
+.add-preference {
+    background: #c77dff;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: bold;
+    margin-top: 10px;
+    align-self: center;
+    width: 100%;
+}
+
+#output {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
+.output-date {
+    margin: 3%;
+    padding: 5%;
+    border-color: white;
+    border-width: 4px;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.output-date h1 {
+    margin-top: 2px;
+    border-bottom: 2px solid white
+}
+
+.name-space {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+}
+
+.name-space p {
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+}
