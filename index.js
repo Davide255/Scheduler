@@ -66,7 +66,7 @@ function add_date() {
     new_element.className = "date";
 
     let elements = `<div class="date-heading">
-    <input type="date" data-date="" data-date-format="DD/MM" value="2024-10-12">
+    <input class="in-name" type="date" data-date="" data-date-format="DD/MM" value="2024-10-12">
         <div>
             <p>Numero di interrogati:</p>
             <input type="number" value="2" min="0">
@@ -83,13 +83,32 @@ function add_date() {
     new_element.innerHTML = elements;
 
     grid.appendChild(new_element);
+
+    document.getElementsByTagName("ul");
+}
+
+function delete_name(element) {
+    element.parentElement.remove()
 }
 
 function add_preference(element) {
-    let new_element = document.createElement("input");
+    let divisor = document.createElement("div");
+    divisor.className = "single-name"
+
+    let icon = document.createElement("span");
+    icon.onclick = function(elem) { delete_name(elem.currentTarget) };
+    icon.className = "material-symbols-outlined";
+    icon.innerHTML = "delete";
+
+    let new_element = document.createElement("h1");
     new_element.type = "text";
-    new_element.placeholder = "Name"
-    element.parentElement.insertBefore(new_element, element);
+    new_element.innerHTML = "Name";
+    new_element.className = "in-name";
+
+    divisor.appendChild(icon);
+    divisor.appendChild(new_element);
+
+    element.parentElement.insertBefore(divisor, element);
 }
 
 function openNav() {
@@ -147,3 +166,21 @@ function generate() {
     document.getElementById("output").style.display = "block"
     document.getElementById("main").style.display = "none"
 }
+
+$(document).on("dblclick", ".in-name", function(){
+
+    var current = $(this).text();
+    $(this).attr("id", "current-selected-name")
+    $(this).html('<input class="in-name" id="newcont" value="'+current+'">');
+    $("#newcont").focus();
+    
+    $("#newcont").focus(function() {
+        console.log('in');
+    }).blur(function() {
+         var newcont = $("#newcont").val();
+         let c = $("#current-selected-name");
+         c.text(newcont);
+         c.attr("id", "");
+    });
+
+})

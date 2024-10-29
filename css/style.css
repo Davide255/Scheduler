@@ -123,14 +123,14 @@ body, html {position: fixed;}
     padding: 20px;
 }
 
-.date input[type="text"] {
+.in-name {
     background: none;
     border: none;
     color: white;
     font-weight: bold;
     font-size: large;
     margin: 5px;
-    width: 100%;
+    width: auto;
 }
 
 .date input[type="number"] {
@@ -201,7 +201,7 @@ body, html {position: fixed;}
 }
 
 .date-heading div input {
-    width: 10%; 
+    width: 10%;
     display: inline; 
     text-align: center;
 }
@@ -250,4 +250,29 @@ body, html {position: fixed;}
     margin: 10px;
     font-size: larger;
     font-weight: bold;
+}
+
+.single-name {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.single-name .in-name {
+    display: inline-block;
+    width: 70%;
+}
+
+.single-name span {
+    display: inline-block;
+    background-color: white;
+    border-radius: 100%;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+.single-name span:hover {
+    background-color: red;
 }

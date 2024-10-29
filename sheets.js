@@ -1,5 +1,5 @@
 const CLIENT_ID = "673269621083-gtgdpjc2nsmv71ed33m2areru5a3csjn.apps.googleusercontent.com";
-const API_KEY = "AIzaSyAH3GpeJCDZK92bUpEYYxdDIPwTDb2om0Q";
+const API_KEY = "NULL";
 
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 
@@ -16,7 +16,7 @@ document.getElementById('signout_button').style.visibility = 'hidden';
  * Callback after api.js is loaded.
  */
 function gapiLoaded() {
-  gapi.load('client', initializeGapiClient);
+  //gapi.load('client', initializeGapiClient);
 }
 
 /**
@@ -24,6 +24,7 @@ function gapiLoaded() {
  * discovery doc to initialize the API.
  */
 async function initializeGapiClient() {
+  return;
 await gapi.client.init({
     apiKey: API_KEY,
     discoveryDocs: [DISCOVERY_DOC],
@@ -36,6 +37,7 @@ maybeEnableButtons();
  * Callback after Google Identity Services are loaded.
  */
 function gisLoaded() {
+  return;
 tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: SCOPES,
@@ -52,6 +54,7 @@ function maybeEnableButtons() {
 }
 
 function handleAuthClick() {
+  return;
     tokenClient.callback = async (resp) => {
       if (resp.error !== undefined) {
         throw (resp);
