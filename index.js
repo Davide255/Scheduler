@@ -128,14 +128,14 @@ function generate() {
 
     for (let date in [...Array(grid.childNodes.length -1).keys()]) {
         let elem = document.getElementsByClassName("date").item(date);
-        data[elem.children[0].children[0].value] = [[], [], Number(elem.children[0].children[1].children[1].children[1].value)];
+        data[elem.children[0].children[0].value] = [[], [], Number(elem.children[0].children[1].children[1].value)];
 
         for (let i in [...Array(elem.children[1].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][0].push(elem.children[1].children[i].children[1].value);
+            data[elem.children[0].children[0].value][0].push(elem.children[1].children[i].children[1].innerHTML);
         }
 
         for (let i in [...Array(elem.children[2].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][1].push(elem.children[2].children[i].children[1].value);
+            data[elem.children[0].children[0].value][1].push(elem.children[2].children[i].children[1].innerHTML);
         }
     }
 
