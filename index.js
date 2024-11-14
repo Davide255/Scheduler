@@ -1,3 +1,11 @@
+const TODAY = new Date();
+
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+
 function generate_dates(data) {
     var out = {};
     var selected = [];
@@ -61,30 +69,31 @@ var test_data = {
 function add_date() {
     let grid = document.getElementById("date-grid");
 
-    let new_element = document.createElement("div");
+    let new_element = document.createElement("li");
 
-    new_element.className = "date";
-
-    let elements = `<div class="date-heading">
-    <input class="in-name" type="date" data-date="" data-date-format="DD/MM" value="2024-10-12">
+    let elements = `<div class="date"><div class="date-heading list-group-item">
+    <input class="in-name" type="date" data-date="" data-date-format="DD/MM" value=`+TODAY.toDateInputValue()+`>
         <div>
             <p>Numero di interrogati:</p>
-            <input type="number" value="2" min="0">
+            <input type="number" value="2" min="1" pattern="[0-9]*">
         </div>
+        <span class="material-symbols-outlined handle" style="color: white;">
+        drag_indicator
+        </span>
     </div>
+    <h4>First preference</h4>
+    <h4>Second preference</h4>
     <ul>
         <button onclick="add_preference(this)" class="add-preference">+</button>
     </ul>
     <ul>
         <button onclick="add_preference(this)" class="add-preference">+</button>
     </ul>
-</div>`;
+</div></div>`;
 
     new_element.innerHTML = elements;
 
-    grid.appendChild(new_element);
-
-    document.getElementsByTagName("ul");
+    grid.appendChild(new_element)
 }
 
 function delete_name(element) {
@@ -112,13 +121,13 @@ function add_preference(element) {
 }
 
 function openNav() {
-    document.getElementById("side-nav").style.width = "250px";
-    //document.getElementById("main").style.marginLeft = "250px";
+    let elem = document.getElementById("side-nav");
+    elem.style.transition = "all 0.5s ease";
+    elem.style.transform = "translateX(0)";
 }
 
 function closeNav() {
-    document.getElementById("side-nav").style.width = "0";
-    //document.getElementById("main").style.marginLeft = "0";
+    document.getElementById("side-nav").style.transform = "translateX(-250px)";
 }
 
 function generate() {
@@ -130,12 +139,12 @@ function generate() {
         let elem = document.getElementsByClassName("date").item(date);
         data[elem.children[0].children[0].value] = [[], [], Number(elem.children[0].children[1].children[1].value)];
 
-        for (let i in [...Array(elem.children[1].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][0].push(elem.children[1].children[i].children[1].innerHTML);
+        for (let i in [...Array(elem.children[3].children.length - 1).keys()]) {
+            data[elem.children[0].children[0].value][0].push(elem.children[3].children[i].children[1].innerHTML);
         }
 
-        for (let i in [...Array(elem.children[2].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][1].push(elem.children[2].children[i].children[1].innerHTML);
+        for (let i in [...Array(elem.children[4].children.length - 1).keys()]) {
+            data[elem.children[0].children[0].value][1].push(elem.children[4].children[i].children[1].innerHTML);
         }
     }
 
@@ -167,12 +176,17 @@ function generate() {
     document.getElementById("main").style.display = "none"
 }
 
+function delete_zone_confirm() {
+    $("#delete-zone div ul").empty();
+}
+
 $(document).on("dblclick", ".in-name", function(){
 
     var current = $(this).text();
     $(this).attr("id", "current-selected-name")
     $(this).html('<input class="in-name" id="newcont" value="'+current+'">');
     $("#newcont").focus();
+    $("#newcont").select();
     
     $("#newcont").focus(function() {
         console.log('in');
@@ -184,3 +198,113 @@ $(document).on("dblclick", ".in-name", function(){
     });
 
 })
+
+$(document).ready(function() {
+    new Sortable(
+        document.getElementById("date-grid"),
+        {
+            group:"content-shared",
+            handle: ".handle",
+            animation: 150,
+            onChoose: function(evt) {
+                $("#delete-zone").addClass("active");
+                $(".floating-button").addClass("active");
+            },
+            onUnchoose: function(evt) {
+                $("#delete-zone").removeClass("active");
+                $(".floating-button").removeClass("active");
+                delete_zone_confirm();
+            }
+        });
+
+    new Sortable(
+        document.getElementById("delete-zone").children[0].children[1], 
+        {
+            group: "content-shared"
+        }
+    );
+
+    document.getElementById('file-input')
+  .addEventListener('change', queryFile, false);
+});
+
+function data_to_html(data) {
+    let grid = document.getElementById("date-grid");
+
+    for (let date in data) {
+        let new_element = document.createElement("li");
+        var fp = "";
+        var sp = "";
+
+        for (const p of data[date][0]) {
+            fp += '<div class="single-name"><span class="material-symbols-outlined">delete</span><h1 class="in-name">'+ p +'</h1></div>\n';
+        }
+
+        for (const p of data[date][1]) {
+            sp += '<div class="single-name"><span class="material-symbols-outlined">delete</span><h1 class="in-name">'+ p +'</h1></div>\n';
+        }
+
+        var d = new Date(date.split("/").reverse().join('/'));
+        if (d.getFullYear() < TODAY.getFullYear()) {
+            d.setFullYear(TODAY.getFullYear());
+        }
+        
+        let elements = `<div class="date"><div class="date-heading list-group-item">
+    <input class="in-name" type="date" data-date="" data-date-format="DD/MM" value=`+d.toDateInputValue()+`>
+        <div>
+            <p>Numero di interrogati:</p>
+            <input type="number" value="2" min="1" pattern="[0-9]*">
+        </div>
+        <span class="material-symbols-outlined handle" style="color: white;">
+        drag_indicator
+        </span>
+    </div>
+    <h4>First preference</h4>
+    <h4>Second preference</h4>
+    <ul>
+        `+fp+`
+        <button onclick="add_preference(this)" class="add-preference">+</button>
+    </ul>
+    <ul>
+        `+sp+`
+        <button onclick="add_preference(this)" class="add-preference">+</button>
+    </ul>
+</div></div>`;
+
+        new_element.innerHTML = elements;
+
+        grid.appendChild(new_element);
+    }
+}
+
+function loadData() {
+    closeNav();
+    document.getElementById("choose-file-dialog").style.display = "flex";
+}
+
+function queryFile(e) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        let content = reader.result;
+        let lines = content.split('\n').slice(1);
+
+        var result = {};
+        
+        for (const line of lines) {
+            const [submitTime, name, firstPreference, secondPreference] = line.trim().split(',');
+
+            // Ensure the date exists in the result object and initialize lists if not present
+            if (!result[firstPreference]) result[firstPreference] = [[], [], 2];
+            if (!result[secondPreference]) result[secondPreference] = [[], [], 2];
+
+            // Add the name to the appropriate lists based on preferences
+            result[firstPreference][0].push(name);
+            result[secondPreference][1].push(name);
+        }
+
+        data_to_html(result);
+    }
+    reader.readAsText(e.target.files[0]);
+
+    document.getElementById("choose-file-dialog").style.display = "none";
+}
