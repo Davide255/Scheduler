@@ -101,7 +101,7 @@ body, html {position: fixed;}
 }
 
 #side-nav {
-    height: 100%; /* 100% Full-height */
+    height: 100vh; /* 100% Full-height */
     width: 250px; /* 0 width - change this with JavaScript */
     position: absolute; /* Stay in place */
     z-index: 1; /* Stay on top */
@@ -293,7 +293,19 @@ body, html {position: fixed;}
     position: absolute;
     width: 100vw;
     height: 100vh;
-    display: none;
+    transform: translateX(100vw);
+}
+
+#output-code {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    overflow-y: scroll;
+    height: 85vh;
+    padding-bottom: 20vh;
+}
+
+#output-code::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .output-date {

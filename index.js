@@ -169,11 +169,23 @@ function generate() {
 
     document.getElementById("output-code").innerHTML = code;
 
-    document.getElementById("add-date").style.display = "none";
-    document.getElementById("generate").style.display = "none";
+    let add_date = document.getElementById("add-date");
+    add_date.style.transition = "all 0.6s ease";
+    add_date.style.transform = "translateY(200px)";
 
-    document.getElementById("output").style.display = "block"
-    document.getElementById("main").style.display = "none"
+    let generate = document.getElementById("generate");
+    generate.style.transition = "all 0.6s ease";
+    generate.style.transform = "translateY(200px)";
+
+    document.getElementById("delete-zone").style.display = "none";
+
+    let output = document.getElementById("output");
+    output.style.transition = "all 0.6s ease";
+    output.style.transform = "translateY(0)";
+
+    let main = document.getElementById("main");
+    main.style.transition = "all 0.6s ease";
+    main.style.transform = "translateX(-100vw)";
 }
 
 function delete_zone_confirm() {
