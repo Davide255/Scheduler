@@ -1,9 +1,12 @@
 const TODAY = new Date();
+var EXCLUDES = [];
 
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);
-    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-    return local.toJSON().slice(0,10);
+
+    console.log(this.toDateString())
+
+    return local.toISOString().slice(0,10);
 });
 
 function generate_dates(data) {
@@ -55,6 +58,27 @@ function generate_dates(data) {
     }
 
     return out;
+}
+
+function excludes() {
+    let grid = document.getElementById("date-grid");
+
+    let names = [];
+
+    for (let date in [...Array(grid.childNodes.length -1).keys()]) {
+        let elem = document.getElementsByClassName("date").item(date);
+
+        for (let i in [...Array(elem.children[3].children.length - 1).keys()]) {
+            let index = EXCLUDES.find((x) => x[0] == elem.children[3].children[i].children[1].innerHTML);
+            if (index == undefined) {
+                names.push([elem.children[3].children[i].children[1].innerHTML, []]);
+            } else {
+                names.push(EXCLUDES[index]);
+            }
+        }
+    }
+
+    EXCLUDES = names;
 }
 
 var test_data = {
@@ -192,6 +216,34 @@ function delete_zone_confirm() {
     $("#delete-zone div ul").empty();
 }
 
+function openExcludes() {
+
+    excludes();
+
+    var elementHTML = "";
+
+    for (const name of EXCLUDES) {
+        elementHTML += `<p>`+name[0]+`</p>
+        <span>`;
+
+        for (const date of name[1]) {
+            elementHTML += '<p class="single-exclude-date">'+ date.toDateInputValue() +'</p>'
+        }
+
+        elementHTML += `</span>
+        <button class="fqlgEG-l">+</button>`;
+    }
+
+    document.getElementById("names-list-content").innerHTML = elementHTML;
+
+    document.getElementById("names-list").style.display = "flex"; 
+}
+
+function closeExcludes() {
+    document.getElementById("names-list").style.display = "none";
+    $("#names-list-content").empty();
+}
+
 $(document).on("dblclick", ".in-name", function(){
 
     var current = $(this).text();
@@ -210,6 +262,10 @@ $(document).on("dblclick", ".in-name", function(){
     });
 
 })
+
+$(document).on('dblclick', '.single-exclude-date', function() {
+    $(this).remove();
+});
 
 $(document).ready(function() {
     new Sortable(
@@ -237,7 +293,13 @@ $(document).ready(function() {
     );
 
     document.getElementById('file-input')
-  .addEventListener('change', queryFile, false);
+        .addEventListener('change', queryFile, false);
+
+    document.getElementById("names-list").addEventListener("click", function(event) {
+        if (!document.getElementById('names-list').children[0].contains(event.target)) {
+            closeExcludes()
+        }
+    })
 });
 
 function data_to_html(data) {
@@ -256,9 +318,17 @@ function data_to_html(data) {
             sp += '<div class="single-name"><span class="material-symbols-outlined">delete</span><h1 class="in-name">'+ p +'</h1></div>\n';
         }
 
-        var d = new Date(date.split("/").reverse().join('/'));
-        if (d.getFullYear() < TODAY.getFullYear()) {
-            d.setFullYear(TODAY.getFullYear());
+        const d_m = date.split("/");
+
+        console.log(d_m);
+
+        var d = new Date();
+        
+        if (d_m.length == 3) {
+            d = new Date(Number(d_m[2]), Number(d_m[1])-1, Number(d_m[0]));
+        }else {
+            console.log(TODAY.getFullYear(), Number(d_m[1]) -1, Number(d_m[0]));
+            d = new Date(TODAY.getFullYear(), Number(d_m[1])-1, Number(d_m[0]));
         }
         
         let elements = `<div class="date"><div class="date-heading list-group-item">
@@ -298,7 +368,7 @@ function queryFile(e) {
     var reader = new FileReader();
     reader.onload = function(e) {
         let content = reader.result;
-        let lines = content.split('\n').slice(1);
+        let lines = content.replace(/"/g, '').split('\n').slice(1);
 
         var result = {};
         

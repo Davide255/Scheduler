@@ -24,16 +24,17 @@
 
         <div id="output">
             <div class="toolbar">
-                <a id="openbutton" onclick="openNav()">&#8801;</a>
-                <h1>Result</h1>
+                <span onclick="openNav()" class="material-symbols-outlined">menu</span>
+                <h1>Scheduler</h1>
             </div>
             <div id="output-code"></div>
         </div>
 
         <div id ="main">
             <div class="toolbar">
-                <a id="openbutton" onclick="openNav()">&#8801;</a>
+                <span onclick="openNav()" class="material-symbols-outlined">menu</span>
                 <h1>Scheduler</h1>
+                <span onclick="openExcludes()" class="material-symbols-outlined">tune</span>
             </div>
             <div id="content">
                 <ul id="date-grid">
@@ -56,5 +57,16 @@
                 <input id="file-input" type="file"></label>
             </div>
         </div>
+
+        <div id="names-list">
+            <div>
+                <div><span class="material-symbols-outlined" onclick="closeExcludes()">arrow_back_ios</span>Select a name to edit
+                <span class="material-symbols-outlined">check</span></div>
+                <div id="names-list-content">
+                                    </div>
+            </div>
+        </div>
+
+        <div id="date-picker-popup"></div>
     </body>
 </html>
