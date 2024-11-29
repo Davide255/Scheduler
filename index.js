@@ -9,6 +9,10 @@ Date.prototype.toDateInputValue = (function() {
     return local.toISOString().slice(0,10);
 });
 
+String.prototype.capitalize = (function() {
+    return this[0].toUpperCase() + this.substring(1);
+});
+
 function generate_dates(data) {
     var out = {};
     var selected = [];
@@ -16,8 +20,8 @@ function generate_dates(data) {
 
     for (let day in data) {
         if (data[day][0].length > data[day][2]) {
-            let shuffled = data[day][0].sort(() => 0.5 - Math.random());
-            out[day] = shuffled.slice(0, data[day][2]);
+            data[day][0] = data[day][0].sort(() => 0.5 - Math.random());
+            out[day] = data[day][0].slice(0, data[day][2]);
         }
         else {
             out[day] = data[day][0];
@@ -34,8 +38,8 @@ function generate_dates(data) {
             let n_d = data[day][1].filter((name) => !selected.includes(name));
             let l = 0;
             if (n_d.length > data[day][2]) {
-                let shuffled = n_d.sort(() => 0.5 - Math.random());
-                out[day] = out[day].concat(shuffled.slice(0, data[day][2]));
+                n_d = n_d.sort(() => 0.5 - Math.random()).slice(0, data[day][2]);
+                out[day] = out[day].concat(n_d);
                 l = data[day][2];
             } else {
                 out[day] = out[day].concat(n_d);
@@ -47,17 +51,27 @@ function generate_dates(data) {
         }
     }
 
-    left = left.filter((name) => !selected.includes(name));
-
-    let shuffled = left.sort(() => 0.5 - Math.random());
+    left = left.filter((name) => !selected.includes(name)).sort(() => 0.5 - Math.random());
 
     for (let day in data) {
         if (data[day][2] > 0) {
-            out[day] = out[day].concat(shuffled.splice(0, data[day][2]));
+            out[day] = out[day].concat(left.splice(0, data[day][2]));
         }
+
+        out[day] = out[day].sort();
     }
 
-    return out;
+    const ordered_dates = Object.keys(out).sort(function(a,b) {
+        return new Date(a) - new Date(b);
+    }).reduce(
+        (obj, key) => { 
+          obj[key] = out[key]; 
+          return obj;
+        }, 
+        {}
+      );
+
+    return ordered_dates;
 }
 
 function excludes() {
@@ -80,15 +94,6 @@ function excludes() {
 
     EXCLUDES = names;
 }
-
-var test_data = {
-    "1" : [["Dave","Pippo"], [], 1],
-    "2" : [["Ludo", "Pasquale"], ["Franco", "Dave"], 2],
-    "3" : [["jonny"], ["francesco", "Pasquale"], 1],
-    "4" : [["Beppe", "Franco"], ["Pasquale", "Beppe"], 2],
-    "5": [["francesco"], ["Pippo", "jonny"], 2]
-}
-
 
 function add_date() {
     let grid = document.getElementById("date-grid");
@@ -164,11 +169,11 @@ function generate() {
         data[elem.children[0].children[0].value] = [[], [], Number(elem.children[0].children[1].children[1].value)];
 
         for (let i in [...Array(elem.children[3].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][0].push(elem.children[3].children[i].children[1].innerHTML);
+            data[elem.children[0].children[0].value][0].push(elem.children[3].children[i].children[1].innerHTML.trim().capitalize());
         }
 
         for (let i in [...Array(elem.children[4].children.length - 1).keys()]) {
-            data[elem.children[0].children[0].value][1].push(elem.children[4].children[i].children[1].innerHTML);
+            data[elem.children[0].children[0].value][1].push(elem.children[4].children[i].children[1].innerHTML.trim().capitalize());
         }
     }
 
@@ -409,8 +414,17 @@ function queryFile(e) {
                 result[secondPreference][1].push(name);
             }
         }
+        const ordered_dates = Object.keys(result).sort(function(a,b) {
+            return new Date(a) - new Date(b);
+        }).reduce(
+            (obj, key) => {
+              obj[key] = result[key]; 
+              return obj;
+            }, 
+            {}
+          );
 
-        data_to_html(result);
+        data_to_html(ordered_dates);
     }
     if (e.target.files[0].type == "text/csv") {
         reader.readAsText(e.target.files[0]);
