@@ -320,15 +320,15 @@ function data_to_html(data) {
 
         const d_m = date.split("/");
 
-        console.log(d_m);
+        console.log(date, d_m);
 
         var d = new Date();
         
         if (d_m.length == 3) {
-            d = new Date(Number(d_m[2]), Number(d_m[1])-1, Number(d_m[0]));
+            d = new Date(Number(d_m[2]), Number(d_m[1])-1, Number(d_m[0])+1);
         }else {
-            console.log(TODAY.getFullYear(), Number(d_m[1]) -1, Number(d_m[0]));
-            d = new Date(TODAY.getFullYear(), Number(d_m[1])-1, Number(d_m[0]));
+            console.log(TODAY.getFullYear(), Number(d_m[1]) -1, Number(d_m[0])+1);
+            d = new Date(TODAY.getFullYear(), Number(d_m[1])-1, Number(d_m[0])+1);
         }
         
         let elements = `<div class="date"><div class="date-heading list-group-item">
@@ -366,27 +366,57 @@ function loadData() {
 
 function queryFile(e) {
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function(event) {
         let content = reader.result;
-        let lines = content.replace(/"/g, '').split('\n').slice(1);
 
-        var result = {};
-        
-        for (const line of lines) {
-            const [submitTime, name, firstPreference, secondPreference] = line.trim().split(',');
+        if (e.target.files[0].type == "text/csv") {
+            let lines = content.replace(/"/g, '').split('\n').slice(1);
 
-            // Ensure the date exists in the result object and initialize lists if not present
-            if (!result[firstPreference]) result[firstPreference] = [[], [], 2];
-            if (!result[secondPreference]) result[secondPreference] = [[], [], 2];
+            var result = {};
+            
+            for (const line of lines) {
+                const [submitTime, name, firstPreference, secondPreference] = line.trim().split(',');
 
-            // Add the name to the appropriate lists based on preferences
-            result[firstPreference][0].push(name);
-            result[secondPreference][1].push(name);
+                // Ensure the date exists in the result object and initialize lists if not present
+                if (!result[firstPreference]) result[firstPreference] = [[], [], 2];
+                if (!result[secondPreference]) result[secondPreference] = [[], [], 2];
+
+                // Add the name to the appropriate lists based on preferences
+                result[firstPreference][0].push(name);
+                result[secondPreference][1].push(name);
+            }
+        } else if (e.target.files[0].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+            const nc = new Uint8Array(content);
+            
+            const workbook = XLSX.read(nc, {type: "array"});
+
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const raw_data = XLSX.utils.sheet_to_json(worksheet, {header:1}).slice(1);
+
+            console.log(raw_data);
+
+            var result = {};
+            
+            for (const line of raw_data) {
+                const [submitTime, name, firstPreference, secondPreference] = line;
+
+                // Ensure the date exists in the result object and initialize lists if not present
+                if (!result[firstPreference]) result[firstPreference] = [[], [], 2];
+                if (!result[secondPreference]) result[secondPreference] = [[], [], 2];
+
+                // Add the name to the appropriate lists based on preferences
+                result[firstPreference][0].push(name);
+                result[secondPreference][1].push(name);
+            }
         }
 
         data_to_html(result);
     }
-    reader.readAsText(e.target.files[0]);
+    if (e.target.files[0].type == "text/csv") {
+        reader.readAsText(e.target.files[0]);
+    } else if (e.target.files[0].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+        reader.readAsArrayBuffer(e.target.files[0])
+    }
 
     document.getElementById("choose-file-dialog").style.display = "none";
 }
