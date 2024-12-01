@@ -477,8 +477,12 @@ function shareResult() {
         XLSX.utils.book_append_sheet(workbook, worksheet, "Result");
 
         const file = XLSX.write(workbook, {type: "array", booktype: "xlsx"});
+        
+        const blob = new Blob([file], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
 
-        const fileobj = new File(new Uint8Array(file), 'Programmate.xlsx');
+        const fileobj = new File([blob], 'Programmate.xlsx');
+
+        console.log(fileobj);
 
         if (navigator.canShare(fileobj)) {
             navigator.share(fileobj);
