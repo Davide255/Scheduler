@@ -476,26 +476,50 @@ function shareResult() {
 
         XLSX.utils.book_append_sheet(workbook, worksheet, "Result");
 
-        const file = XLSX.write(workbook, {type: "array", booktype: "xlsx"});
+        var max = 0;
         
-        const fileobj = {
-            "title": "Programmate",
-            "text": "Exporting data as XSLX",
-            "files": [
-                new File(
-                    [file], 
-                    'Programmate.xlsx', 
-                    {
-                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    }
-                )
-            ],
-        };
+        for (const k in RESULT) {
+            max = Math.max(max, RESULT[k].length);
+        }
 
-        if (navigator.canShare(fileobj)) {
-            navigator.share(fileobj);
-        } else {
-            console.error("Cannot share object");
+        worksheet["!cols"] = new Array(max+1).fill({wch: 8, wpx: 200});
+
+        if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 || navigator.userAgent.indexOf("Chrome") != -1) {
+
+            const file = XLSX.write(workbook, {type: "base64", booktype: "xlsx", cellStyles: true});
+
+            let element = document.createElement('a');
+            element.setAttribute('href',
+                'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'
+                + file);
+            element.setAttribute('download', 'Programmate.xlsx');
+            document.body.appendChild(element);
+            element.click();
+
+            document.body.removeChild(element);
+
+        } else if (navigator.userAgent.indexOf("Safari") != -1) {
+            const file = XLSX.write(workbook, {type: "array", booktype: "xlsx", cellStyles: true});
+        
+            const fileobj = {
+                "title": "Programmate",
+                "text": "Exporting data as XSLX",
+                "files": [
+                    new File(
+                        [file],
+                        'Programmate.xlsx', 
+                        {
+                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        }
+                    )
+                ],
+            };
+
+            if (navigator.canShare(fileobj)) {
+                navigator.share(fileobj);
+            } else {
+                console.error("Cannot share object");
+            }
         }
     }
 }
