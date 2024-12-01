@@ -1,6 +1,8 @@
 const TODAY = new Date();
 var EXCLUDES = [];
 
+var RESULT = {};
+
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);
 
@@ -70,6 +72,8 @@ function generate_dates(data) {
         }, 
         {}
       );
+
+    RESULT = ordered_dates;
 
     return ordered_dates;
 }
@@ -210,7 +214,7 @@ function generate() {
 
     let output = document.getElementById("output");
     output.style.transition = "all 0.6s ease";
-    output.style.transform = "translateY(0)";
+    output.style.transform = "translateX(0)";
 
     let main = document.getElementById("main");
     main.style.transition = "all 0.6s ease";
@@ -433,4 +437,53 @@ function queryFile(e) {
     }
 
     document.getElementById("choose-file-dialog").style.display = "none";
+}
+
+function back() {
+
+    closeNav();
+
+    let add_date = document.getElementById("add-date");
+    add_date.style.transition = "all 0.6s ease";
+    add_date.style.transform = "translateY(0)";
+
+    let generate = document.getElementById("generate");
+    generate.style.transition = "all 0.6s ease";
+    generate.style.transform = "translateY(0)";
+
+    document.getElementById("delete-zone").style.display = "flex";
+
+    let output = document.getElementById("output");
+    output.style.transition = "all 0.6s ease";
+    output.style.transform = "translateX(100vw)";
+
+    let main = document.getElementById("main");
+    main.style.transition = "all 0.6s ease";
+    main.style.transform = "translateX(0)";
+}
+
+function shareResult() {
+    if (RESULT != {}) {
+        const workbook = XLSX.utils.book_new();
+
+        const formatted_result = [];
+
+        for (const date in RESULT) {
+            formatted_result.push([date].concat(RESULT[date]))
+        }
+
+        const worksheet = XLSX.utils.aoa_to_sheet(formatted_result);
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Result");
+
+        const file = XLSX.write(workbook, {type: "array", booktype: "xlsx"});
+
+        const fileobj = new File(new Uint8Array(file), 'Programmate.xlsx');
+
+        if (navigator.canShare(fileobj)) {
+            navigator.share(fileobj);
+        } else {
+            console.error("cannot share file");
+        }
+    }
 }

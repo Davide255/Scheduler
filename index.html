@@ -12,14 +12,17 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="./index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.zahl.js"></script>
     </head>
 
     <body>
         
         <div id="side-nav">
-            <button onclick="closeNav()" class="closebtn">&times;</button>
+            <div>
+                <span class="material-symbols-outlined back" onclick="back()">arrow_back_ios</span>
+                <button onclick="closeNav()" class="closebtn">&times;</button>
+            </div>
             <button onclick="loadData()">Load from Sheets (csv)</button>
             <button onclick="location.reload()">Reset</button>
         </div>
@@ -28,6 +31,7 @@
             <div class="toolbar">
                 <span onclick="openNav()" class="material-symbols-outlined">menu</span>
                 <h1>Scheduler</h1>
+                <span onclick="shareResult()" class="material-symbols-outlined">file_export</span>
             </div>
             <div id="output-code"></div>
         </div>

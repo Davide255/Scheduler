@@ -105,7 +105,7 @@ body, html {position: fixed;}
     left: 0;
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
+    padding-top: 10px; /* Place content 60px from the top */
     transform: translateX(-250px);
 }
 
@@ -122,16 +122,31 @@ body, html {position: fixed;}
     min-width: 250px - 8px -23px;
 }
   
-#side-nav button:hover {
+#side-nav button:hover, #side-nav span:hover {
     color: #f1f1f1;
 }
 
+#side-nav div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    padding-bottom: 5px;
+    margin: 10px;
+    min-width: 250px - 8px -23px;
+    height: 20px;
+
+}
+
 #side-nav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
     font-size: 36px;
-    margin-left: 50px;     
+    padding: 0;
+}
+
+#side-nav .back {
+    transition: 0.3s;
+    color: #818181;
+    align-content: center;
 }
 
 #openbutton:hover {
