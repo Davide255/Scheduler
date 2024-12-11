@@ -1,0 +1,59 @@
+#side-nav {
+    height: 100vh; /* 100% Full-height */
+    width: 250px; /* 0 width - change this with JavaScript */
+    position: absolute; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 10px; /* Place content 60px from the top */
+    transform: translateX(-250px);
+}
+
+#side-nav button, #side-nav label {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 100%;
+    font-weight: bold;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    border: none;
+    background: none;
+    min-width: 250px - 8px -23px;
+}
+  
+#side-nav button:hover, #side-nav span:hover, #side-nav label:hover {
+    color: #f1f1f1;
+}
+
+#side-nav #file-input {
+    display: none;
+}
+
+#side-nav div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    padding-bottom: 5px;
+    margin: 10px;
+    min-width: 250px - 8px -23px;
+    height: 20px;
+}
+
+#side-nav .closebtn {
+    font-size: 36px;
+    padding: 0;
+}
+
+#side-nav .back {
+    transition: 0.3s;
+    color: #818181;
+    align-content: center;
+}
+
+#openbutton:hover {
+    cursor:default;
+}

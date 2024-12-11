@@ -1,0 +1,45 @@
+#output {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    transform: translateX(100vw);
+}
+
+#output-code {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    overflow-y: scroll;
+    height: 85vh;
+    padding-bottom: 20vh;
+}
+
+#output-code::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.output-date {
+    margin: 3%;
+    padding: 5%;
+    border-color: white;
+    border-width: 4px;
+    border-radius: 20px;
+    border-style: solid;
+}
+
+.output-date h1 {
+    margin-top: 2px;
+    border-bottom: 2px solid white
+}
+
+.name-space {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+}
+
+.name-space p {
+    margin: 10px;
+    font-size: larger;
+    font-weight: bold;
+}

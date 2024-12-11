@@ -1,0 +1,73 @@
+.toolbar {
+    height: 14vh;
+    width: 100%;
+    text-align: center;
+    font-size: 120%;
+    background-color: #c77dff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.toolbar span {
+    cursor: pointer;
+}
+
+.toolbar h1 {
+    cursor: default;
+    width: 75%;
+}
+
+#content {
+    padding: 10px;
+    height: 83vh;
+    overflow-y: scroll;
+}
+
+.floating-button {
+    display:block;
+    position: absolute;
+    touch-action: manipulation;
+
+    color: white;
+    background-color: #c77dff;
+    border-radius: 20px;
+    height: 8%;
+    width: 25%;
+    font-size: 100%;
+    font-weight: bold;
+    border-width: 0px;
+
+    transition: 0.3s ease;
+}
+
+.floating-button.active {
+    transform: translateY(100px);
+}
+
+#add-date {
+    top: 87%;
+    left: 42%;
+}
+
+#generate {
+    top: 87%;
+    left: 70%;
+}
+
+#date-grid {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding-bottom: 20vh;
+}
+
+#content {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#content::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}

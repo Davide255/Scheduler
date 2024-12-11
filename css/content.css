@@ -1,0 +1,214 @@
+/*DATE BOX*/
+.handle:hover {
+    cursor: grab;
+}
+
+.date {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #240046;
+    color: black;
+    border-radius: 20px;
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1px;
+}
+
+.date input[type="date"] {
+    width: 50%;
+    height: 30px;
+    background-color: #c77dff;
+    border-width: 0;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: bold;
+    color:white;
+    font-size: small;
+}
+
+.date h4 {
+    color: white;
+    text-align: center;
+    justify-self: center;
+    padding: 2px;
+    width: 80%;
+    border-bottom: 2px solid white;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.date ul {
+    margin: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 20px;
+}
+
+.in-name {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    margin: 5px;
+    width: auto;
+}
+
+.date input[type="number"] {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    margin: 5px;
+}
+
+.date-heading {
+    grid-column-start: 1; grid-column-end: 3;
+    margin: 10px; 
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+}
+
+.date-heading span {
+    width: 30px;
+}
+
+.date-heading div {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.date-heading div p {
+    display: inline;
+    color: white; 
+    font-weight: bold; 
+    font-size: small; 
+    text-align: center;
+}
+
+.date-heading div input {
+    width: 10%;
+    text-align: center;
+}
+
+.add-preference {
+    background: #c77dff;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: bold;
+    margin-top: 10px;
+    align-self: center;
+    width: 100%;
+}
+
+.single-name {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.single-name .in-name {
+    width: 80%;
+    text-align: center;
+    vertical-align: middle;
+    height: auto;
+}
+
+.single-name input {
+    font-size: normal;
+    margin: 0;
+}
+
+.single-name span {
+    background-color: white;
+    border-radius: 100%;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+.single-name span:hover {
+    background-color: red;
+}
+
+/*DELETE ZONE*/
+#delete-zone {
+    position: absolute;
+    left: 10%;
+    top: 75%;
+    width: 80%;
+    background-color: rgba(255, 0, 0, 0.5);
+    height: 20vh;
+    border-radius: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(230px);
+}
+
+#delete-zone.active{
+    transition: 0.6s ease;
+    transform: translateY(0);
+}
+
+#delete-zone div:first-child {
+    width: 95%;
+    height: 87%;
+    border-radius: 20px;
+    border: 6px dashed red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+#delete-zone div:first-child ul:nth-child(2) {
+    position: absolute;
+    width: 95%;
+    height: 80%;
+    align-content: center;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+#delete-zone li {
+    padding: 0;
+    margin: 0;
+}
+
+#delete-zone li .date {
+    height: 100%;
+    width: 100%;
+    border: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1px;
+    padding: 0;
+    margin: 0;
+    scale: 60%;
+}
+
+#delete-zone li .date * {
+    border: none;
+}

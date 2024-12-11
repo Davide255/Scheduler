@@ -4,28 +4,40 @@
         <title>Scheduler</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Programmate">
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="apple-touch-startup-image" href="https://wallpapers.com/images/featured/space-iphone-ajvn48g89j7wesx7.jpg">
         <link rel="apple-touch-icon" href="https://media.istockphoto.com/id/1135090585/it/vettoriale/design-dellicona-del-logo-della-lettera-p.jpg?s=612x612&w=0&k=20&c=o66hlo9Htn4SoAWvOq9ChMOSbUndlnTKM6BYWI7eRBs="/>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/content.css">
+        <link rel="stylesheet" href="./css/dialogs.css">
+        <link rel="stylesheet" href="./css/navigationdrawer.css">
+        <link rel="stylesheet" href="./css/output.css">
+        <link rel="stylesheet" href="./css/toolbar_and_button.css">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="./index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-        <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.zahl.js"></script>
+
+        <script src="./scripts/index.js"></script>
+        <script src="./scripts/algorithm.js"></script>
+        <script src="./scripts/navigator.js"></script>
+        <script src="./scripts/popups.js"></script>
+        <script src="./scripts/result.js"></script>
     </head>
 
     <body>
-        
         <div id="side-nav">
             <div>
                 <span class="material-symbols-outlined back" onclick="back()">arrow_back_ios</span>
                 <button onclick="closeNav()" class="closebtn">&times;</button>
             </div>
-            <button onclick="loadData()">Load from Sheets (csv)</button>
+            <label for="file-input">Open a file
+            <input id="file-input" type="file"></label>
             <button onclick="location.reload()">Reset</button>
         </div>
 
@@ -59,22 +71,19 @@
         <button onclick="add_date(this)" class="floating-button" id="add-date">Add date</button>
         <button onclick="generate(this)" class="floating-button" id="generate">Generate</button>
 
-        <div id="choose-file-dialog">
-            <div>
-                <label for="file-input"><p>Open a file (CSV)</p>
-                <input id="file-input" type="file"></label>
+        <div id="names-list-wrap">
+            <div id="names-list">
+                <div id="names-list-header">
+                    <span class="material-symbols-outlined" onclick="closeExcludes()">arrow_back_ios</span>
+                    Select a name to edit
+                    <span class="material-symbols-outlined" onclick="closeExcludes()">check</span>
+                </div>
+                <div id="names-list-content"></div>
             </div>
         </div>
 
-        <div id="names-list">
-            <div>
-                <div><span class="material-symbols-outlined" onclick="closeExcludes()">arrow_back_ios</span>Select a name to edit
-                <span class="material-symbols-outlined">check</span></div>
-                <div id="names-list-content">
-                                    </div>
-            </div>
+        <div id="date-picker-popup">
+            
         </div>
-
-        <div id="date-picker-popup"></div>
     </body>
 </html>
